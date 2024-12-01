@@ -1,0 +1,9 @@
+# IntelliJ IDEA specific files
+.idea/
+
+# Maven
+.mvn/
+!**/mvn/wrapper/**  # Keep Maven wrapper files
+**/target/
+
+

@@ -1,0 +1,133 @@
+services:
+  web-mvc-app:
+    build:
+      context: web-mvc-app
+      dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: "${BUILD_VERSION:-$(date +%s)}"
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_OPTS=-Xmx2048m
+    deploy:
+      resources:
+        limits:
+          memory: "2048M"
+    depends_on:
+      - northwind-db
+    networks:
+      - monitoring
+
+  web-mvc-vt-app:
+    build:
+      context: web-mvc-vt-app
+      dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: "${BUILD_VERSION:-$(date +%s)}"
+    ports:
+      - "8081:8080"
+    environment:
+      - JAVA_OPTS=-Xmx2048m
+    deploy:
+      resources:
+        limits:
+          memory: "2048M"
+    depends_on:
+      - northwind-db
+    networks:
+      - monitoring
+
+  webflux-app:
+    build:
+      context: webflux-app
+      dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: "${BUILD_VERSION:-$(date +%s)}"
+    ports:
+      - "8082:8080"
+    environment:
+      - JAVA_OPTS=-Xmx2048m
+    deploy:
+      resources:
+        limits:
+          memory: "2048M"
+    depends_on:
+      - northwind-db
+    networks:
+      - monitoring
+
+  webflux-vt-app:
+    build:
+      context: webflux-vt-app
+      dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: "${BUILD_VERSION:-$(date +%s)}"
+    ports:
+      - "8083:8080"
+    environment:
+      - JAVA_OPTS=-Xmx2048m
+    deploy:
+      resources:
+        limits:
+          memory: "2048M"
+    depends_on:
+      - northwind-db
+    networks:
+      - monitoring
+
+  northwind-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: northwind
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/db_init/northwind.sql:/docker-entrypoint-initdb.d/northwind.sql:ro
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.enable-remote-write-receiver'
+    volumes:
+      - prometheus-data:/prometheus
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+    volumes:
+      - grafana-data-2:/var/lib/grafana
+      - ./docker/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - "8089:8080"
+    volumes:
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+
+volumes:
+  grafana-data-2:
+  prometheus-data:

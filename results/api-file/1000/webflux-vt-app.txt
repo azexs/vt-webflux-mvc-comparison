@@ -1,0 +1,44 @@
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+     execution: local
+        script: stress-test.js
+        output: Prometheus remote write (http://localhost:9090/api/v1/write)
+
+     scenarios: (100.00%) 3 scenarios, 2000 max VUs, 10m15s max duration (incl. graceful stop):
+              * warmup: Up to 1000 looping VUs for 15s over 1 stages (gracefulRampDown: 30s, gracefulStop: 15s)
+              * steady_load: 1000 looping VUs for 9m30s (startTime: 15s, gracefulStop: 15s)
+              * rampdown: Up to 1000 looping VUs for 15s over 1 stages (gracefulRampDown: 30s, startTime: 9m45s, gracefulStop: 15s)
+
+     ✗ status is 200 99% — ✓ 3611027 / ✗ 35
+
+     checks.........................: 99.99%  3611027 out of 3611062
+     data_received..................: 289 MB  482 kB/s
+     data_sent......................: 318 MB  530 kB/s
+     http_req_blocked...............: avg=8.64µs   min=520ns  med=2.64µs   max=93.61ms p(90)=4.84µs   p(95)=7.28µs
+     http_req_connecting............: avg=4.88µs   min=0s     med=0s       max=87.26ms p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=161.99ms min=1.48ms med=114.47ms max=3.76s   p(90)=390.74ms p(95)=452.28ms
+       { expected_response:true }...: avg=161.99ms min=1.48ms med=114.47ms max=3.76s   p(90)=390.74ms p(95)=452.28ms
+     http_req_failed................: 0.00%   35 out of 3611062
+     http_req_receiving.............: avg=38.16µs  min=6.11µs med=25.27µs  max=48.51ms p(90)=56.36µs  p(95)=97.47µs
+     http_req_sending...............: avg=11.32µs  min=1.73µs med=7.73µs   max=27.44ms p(90)=14.5µs   p(95)=21.61µs
+     http_req_tls_handshaking.......: avg=0s       min=0s     med=0s       max=0s      p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=161.94ms min=1.41ms med=114.43ms max=3.76s   p(90)=390.64ms p(95)=452.2ms
+     http_reqs......................: 3611062 6018.407011/s
+     iteration_duration.............: avg=162.08ms min=1.59ms med=114.54ms max=3.76s   p(90)=390.91ms p(95)=452.46ms
+     iterations.....................: 3611062 6018.407011/s
+     vus............................: 11      min=11                 max=1000
+     vus_max........................: 2000    min=2000               max=2000
+
+
+running (10m00.0s), 0000/2000 VUs, 3611062 complete and 0 interrupted iterations
+warmup      ✓ [ 100% ] 0000/1000 VUs  15s
+steady_load ✓ [ 100% ] 1000 VUs       9m30s
+rampdown    ✓ [ 100% ] 0000/1000 VUs  15s
+
+Test Start Time: 2024-12-01 07:15:20
+Test End Time: 2024-12-01 07:25:23
