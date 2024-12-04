@@ -8,10 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="web-mvc-app" />
         <module name="reactive" />
-        <module name="webflux-virtual-threads" />
         <module name="virtual-threads" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="webflux-virtual-threads" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

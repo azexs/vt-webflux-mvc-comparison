@@ -1,17 +1,14 @@
 #!/bin/bash
 
 # Lista endpointów
-endpoints=("api/hello" "api/db" "api/file" "api/delay")
+endpoints=("api/db")
 
 declare -A port_to_app=(
-  [8080]="web-mvc-app"
   [8081]="web-mvc-vt-app"
-  [8082]="webflux-app"
-  [8083]="webflux-vt-app"
 )
 
 # Lista VUs
-vus=(200 1000)
+vus=(5000)
 
 PROMETHEUS_URL="http://localhost:9090/api/v1/write"
 
@@ -49,7 +46,7 @@ wait_for_container_ready() {
       echo "Container $container_name is ready."
       return 0
     fi
-    sleep 30
+    sleep 10
   done
 
   echo "Container $container_name did not become ready in time!"
@@ -90,7 +87,7 @@ export let options = {
         steady_load: {
             executor: 'constant-vus',
             vus: $vu,
-            duration: '9m30s',
+            duration: '2m30s',
             startTime: '15s',
             gracefulStop: '15s',
         },
@@ -100,7 +97,7 @@ export let options = {
             stages: [
                 { duration: '15s', target: 0 },
             ],
-            startTime: '9m45s',
+            startTime: '2m45s',
             gracefulStop: '15s',
         },
     },
@@ -117,7 +114,7 @@ export default function () {
 }
 EOF
 
-      output_file="$folder/${app_name}.txt"
+      output_file="$folder/${app_name}-2.txt"
 
       K6_PROMETHEUS_RW_SERVER_URL=$PROMETHEUS_URL k6 run -o experimental-prometheus-rw test_script.js > "$output_file"
 
@@ -130,7 +127,7 @@ EOF
 
       manage_container stop "$app_name"
 
-      sleep 180
+      sleep 60
     done
   done
 done

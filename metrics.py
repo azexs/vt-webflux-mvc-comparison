@@ -49,7 +49,7 @@ def fetch_metrics(start_time, end_time, container_name, endpoint, vus_suffix, ap
 
     metrics_data[metric_name] = round(point_data, 2) if point_data is not None else None
 
-  output_file = os.path.join(output_dir, f"metrics_{app}.json")
+  output_file = os.path.join(output_dir, f"metrics_{app}-2.json")
   with open(output_file, "w") as json_file:
     json.dump(metrics_data, json_file, indent=4)
 
@@ -58,19 +58,16 @@ def fetch_metrics(start_time, end_time, container_name, endpoint, vus_suffix, ap
 
 def process_results():
   containers = [
-    {"name": "vt-webflux-mvc-comparison-web-mvc-app-1", "port": 8080, "app": "web-mvc-app"},
     {"name": "vt-webflux-mvc-comparison-web-mvc-vt-app-1", "port": 8081, "app": "web-mvc-vt-app"},
-    {"name": "vt-webflux-mvc-comparison-webflux-app-1", "port": 8082, "app": "webflux-app"},
-    {"name": "vt-webflux-mvc-comparison-webflux-vt-app-1", "port": 8083, "app": "webflux-vt-app"},
   ]
-  endpoints = ["api-db", "api-delay", "api-file", "api-hello"]
-  vus_suffixes = ["200", "1000"]
+  endpoints = ["api-db"]
+  vus_suffixes = ["5000"]
 
   for endpoint in endpoints:
     for vus_suffix in vus_suffixes:
       for container in containers:
         try:
-          file_path = f"results/{endpoint}/{vus_suffix}/{container['app']}.txt"
+          file_path = f"results/{endpoint}/{vus_suffix}/{container['app']}-2.txt"
 
           if not os.path.exists(file_path):
             print(f"File not found: {file_path}")

@@ -1,15 +1,15 @@
 {
-    "cpu_avg": 48.53,
-    "cpu_max": 81.09,
-    "memory_avg": 538.13,
-    "memory_max": 564.56,
-    "threads_max": 37.0,
-    "jvm_memory_avg": 178.65,
-    "jvm_memory_max": 251.16,
-    "jvm_system_cpu_avg": 0.66,
-    "jvm_system_cpu_max": 0.93,
-    "jvm_process_cpu_avg": 0.72,
-    "jvm_process_cpu_max": 1.0,
-    "jvm_load_avg": 16.27,
-    "jvm_load_max": 21.0
+    "cpu_avg": 63.47,
+    "cpu_max": 64.35,
+    "memory_avg": 704.73,
+    "memory_max": 731.24,
+    "threads_max": 38.0,
+    "jvm_memory_avg": 253.44,
+    "jvm_memory_max": 421.51,
+    "jvm_system_cpu_avg": 0.79,
+    "jvm_system_cpu_max": 0.9,
+    "jvm_process_cpu_avg": 0.71,
+    "jvm_process_cpu_max": 0.9,
+    "jvm_load_avg": 14.79,
+    "jvm_load_max": 18.62
 }

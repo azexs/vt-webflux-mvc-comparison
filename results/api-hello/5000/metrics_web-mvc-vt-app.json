@@ -1,0 +1,15 @@
+{
+    "cpu_avg": 34.9,
+    "cpu_max": 48.02,
+    "memory_avg": 824.78,
+    "memory_max": 872.32,
+    "threads_max": 31.0,
+    "jvm_memory_avg": 419.74,
+    "jvm_memory_max": 644.04,
+    "jvm_system_cpu_avg": 0.66,
+    "jvm_system_cpu_max": 0.9,
+    "jvm_process_cpu_avg": 0.67,
+    "jvm_process_cpu_max": 1.0,
+    "jvm_load_avg": 15.39,
+    "jvm_load_max": 20.5
+}

@@ -3,11 +3,9 @@ package pw.mgr.webflux;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-
 import reactor.core.publisher.Mono;
+
+import java.nio.file.Paths;
 
 @RestController
 public class TestController {
@@ -25,19 +23,14 @@ public class TestController {
 
     @GetMapping("/api/db")
     public Mono<String> getData() {
-        return Mono.fromRunnable(testService::queryDatabase)
-                .then(Mono.just("OK"));
+        return testService.queryDatabase()
+                .thenReturn("OK"); // Po zakończeniu operacji zwraca "OK"
     }
 
     @GetMapping("/api/file")
     public Mono<String> getFile() {
-        return Mono.fromRunnable(() -> {
-            try {
-                testService.performIOOperation(Paths.get("/tmp"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }).then(Mono.just("OK"));
+        return testService.performIOOperation(Paths.get("/tmp"))
+                .thenReturn("OK");
     }
 
     @GetMapping("/api/delay")
