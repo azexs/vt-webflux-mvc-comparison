@@ -32,10 +32,10 @@ def fetch_metrics(start_time, end_time, container_name, endpoint, vus_suffix, ap
     "threads_max": f"max_over_time(jvm_threads_live_threads{{application='{app}'}}[{range_duration}])",
     "jvm_memory_avg": f"sum(avg_over_time(jvm_memory_used_bytes{{application='{app}'}}[{range_duration}]))",
     "jvm_memory_max": f"sum(max_over_time(jvm_memory_used_bytes{{application='{app}'}}[{range_duration}]))",
-    "jvm_system_cpu_avg": f"avg_over_time(system_cpu_usage{{application='{app}'}}[{range_duration}])",
-    "jvm_system_cpu_max": f"max_over_time(system_cpu_usage{{application='{app}'}}[{range_duration}])",
-    "jvm_process_cpu_avg": f"avg_over_time(process_cpu_usage{{application='{app}'}}[{range_duration}])",
-    "jvm_process_cpu_max": f"max_over_time(process_cpu_usage{{application='{app}'}}[{range_duration}])",
+    "jvm_system_cpu_avg": f"avg_over_time(system_cpu_usage{{application='{app}'}}[{range_duration}]) * 100 ",
+    "jvm_system_cpu_max": f"max_over_time(system_cpu_usage{{application='{app}'}}[{range_duration}]) * 100 ",
+    "jvm_process_cpu_avg": f"avg_over_time(process_cpu_usage{{application='{app}'}}[{range_duration}]) * 100 ",
+    "jvm_process_cpu_max": f"max_over_time(process_cpu_usage{{application='{app}'}}[{range_duration}]) * 100 ",
     "jvm_load_avg": f"avg_over_time(system_load_average_1m{{application='{app}'}}[{range_duration}])",
     "jvm_load_max": f"max_over_time(system_load_average_1m{{application='{app}'}}[{range_duration}])",
   }
@@ -49,7 +49,7 @@ def fetch_metrics(start_time, end_time, container_name, endpoint, vus_suffix, ap
 
     metrics_data[metric_name] = round(point_data, 2) if point_data is not None else None
 
-  output_file = os.path.join(output_dir, f"metrics_{app}-2.json")
+  output_file = os.path.join(output_dir, f"metrics_{app}.json")
   with open(output_file, "w") as json_file:
     json.dump(metrics_data, json_file, indent=4)
 
@@ -58,16 +58,18 @@ def fetch_metrics(start_time, end_time, container_name, endpoint, vus_suffix, ap
 
 def process_results():
   containers = [
+    {"name": "vt-webflux-mvc-comparison-web-mvc-app-1", "port": 8080, "app": "web-mvc-app"},
     {"name": "vt-webflux-mvc-comparison-web-mvc-vt-app-1", "port": 8081, "app": "web-mvc-vt-app"},
+    {"name": "vt-webflux-mvc-comparison-webflux-app-1", "port": 8082, "app": "webflux-app"},
   ]
-  endpoints = ["api-db"]
-  vus_suffixes = ["5000"]
+  endpoints = ["api-db", "api-delay", "api-file", "api-hello"]
+  vus_suffixes = ["1000", "5000"]
 
   for endpoint in endpoints:
     for vus_suffix in vus_suffixes:
       for container in containers:
         try:
-          file_path = f"results/{endpoint}/{vus_suffix}/{container['app']}-2.txt"
+          file_path = f"results/{endpoint}/{vus_suffix}/{container['app']}.txt"
 
           if not os.path.exists(file_path):
             print(f"File not found: {file_path}")

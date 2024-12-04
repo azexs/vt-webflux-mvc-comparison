@@ -1,14 +1,16 @@
 #!/bin/bash
 
 # Lista endpointów
-endpoints=("api/db")
+endpoints=("api/hello" "api/db" "api/file" "api/delay")
 
 declare -A port_to_app=(
+  [8080]="web-mvc-app"
   [8081]="web-mvc-vt-app"
+  [8082]="webflux-app"
 )
 
 # Lista VUs
-vus=(5000)
+vus=(1000 5000)
 
 PROMETHEUS_URL="http://localhost:9090/api/v1/write"
 
@@ -114,7 +116,7 @@ export default function () {
 }
 EOF
 
-      output_file="$folder/${app_name}-2.txt"
+      output_file="$folder/${app_name}.txt"
 
       K6_PROMETHEUS_RW_SERVER_URL=$PROMETHEUS_URL k6 run -o experimental-prometheus-rw test_script.js > "$output_file"
 
