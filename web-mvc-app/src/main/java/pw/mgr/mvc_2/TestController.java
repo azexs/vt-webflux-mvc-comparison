@@ -1,4 +1,4 @@
-package pw.mgr.mvc;
+package pw.mgr.mvc_2;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +34,10 @@ public class TestController {
     }
 
     @GetMapping("/api/delay")
-    public String getDelay(@RequestParam(name = "delay", required = false, defaultValue = "500") long delay) throws InterruptedException {
+    public String getDelay(@RequestParam(
+            name = "delay",
+            required = false,
+            defaultValue = "500") long delay) throws InterruptedException {
         Thread.sleep(delay);
         return "OK";
     }

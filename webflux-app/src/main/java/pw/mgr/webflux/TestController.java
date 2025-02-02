@@ -24,7 +24,7 @@ public class TestController {
     @GetMapping("/api/db")
     public Mono<String> getData() {
         return testService.queryDatabase()
-                .thenReturn("OK"); // Po zakończeniu operacji zwraca "OK"
+                .thenReturn("OK");
     }
 
     @GetMapping("/api/file")
@@ -34,7 +34,9 @@ public class TestController {
     }
 
     @GetMapping("/api/delay")
-    public Mono<String> getDelay(@RequestParam(name = "delay", required = false, defaultValue = "500") long delay) {
+    public Mono<String> getDelay(
+            @RequestParam(name = "delay", required = false, defaultValue = "500")
+            long delay) {
         return Mono.delay(java.time.Duration.ofMillis(delay))
                 .then(Mono.just("OK"));
     }

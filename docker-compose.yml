@@ -3,12 +3,26 @@ services:
     build:
       context: web-mvc-app
       dockerfile: Dockerfile
-      args:
-        BUILD_VERSION: "${BUILD_VERSION:-$(date +%s)}"
     ports:
       - "8080:8080"
     environment:
-      - SERVER_TOMCAT_MAX_THREADS=1000
+      - JAVA_OPTS=-Xmx2048m
+    deploy:
+      resources:
+        limits:
+          memory: "2048M"
+    depends_on:
+      - northwind-db
+    networks:
+      - monitoring
+
+  web-mvc-app-2:
+    build:
+      context: web-mvc-app-2
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
       - JAVA_OPTS=-Xmx2048m
     deploy:
       resources:
@@ -23,16 +37,14 @@ services:
     build:
       context: web-mvc-vt-app
       dockerfile: Dockerfile
-      args:
-        BUILD_VERSION: "${BUILD_VERSION:-$(date +%s)}"
     ports:
-      - "8081:8080"
+      - "8082:8080"
     environment:
-      - JAVA_OPTS=-Xmx4096m -Xms2048m
+      - JAVA_OPTS=-Xmx2048m
     deploy:
       resources:
         limits:
-          memory: "4096M"
+          memory: "2048M"
     depends_on:
       - northwind-db
     networks:
@@ -42,10 +54,8 @@ services:
     build:
       context: webflux-app
       dockerfile: Dockerfile
-      args:
-        BUILD_VERSION: "${BUILD_VERSION:-$(date +%s)}"
     ports:
-      - "8082:8080"
+      - "8083:8080"
     environment:
       - JAVA_OPTS=-Xmx2048m
     deploy:
@@ -93,7 +103,7 @@ services:
     networks:
       - monitoring
     volumes:
-      - grafana-data-2:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
       - ./docker/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
 
   cadvisor:
@@ -111,5 +121,5 @@ networks:
   monitoring:
 
 volumes:
-  grafana-data-2:
+  grafana-data:
   prometheus-data:

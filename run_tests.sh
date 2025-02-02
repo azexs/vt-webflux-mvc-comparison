@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# Lista endpointów
 endpoints=("api/hello" "api/db" "api/file" "api/delay")
 
 declare -A port_to_app=(
   [8080]="web-mvc-app"
-  [8081]="web-mvc-vt-app"
-  [8082]="webflux-app"
+  [8081]="web-mvc-app-2"
+  [8082]="web-mvc-vt-app"
+  [8083]="webflux-app"
 )
 
-# Lista VUs
 vus=(1000 5000)
 
 PROMETHEUS_URL="http://localhost:9090/api/v1/write"
@@ -17,12 +16,12 @@ PROMETHEUS_URL="http://localhost:9090/api/v1/write"
 manage_container() {
   local action=$1
   local app_name=$2
-  local container_name=$(docker ps -a --filter "name=$app_name" --format "{{.Names}}" | head -n 1)
+  local container_name=$(docker ps -a --filter "name=$app_name-1$" --format "{{.Names}}" | head -n 1)
 
   if [ -n "$container_name" ]; then
     case $action in
       start)
-        echo "Starting container: $container_name"
+        echo "Starting container: $container_name port: $port"
         docker start "$container_name" > /dev/null 2>&1
         wait_for_container_ready "$container_name" "http://localhost:${port}/actuator/health"
         ;;

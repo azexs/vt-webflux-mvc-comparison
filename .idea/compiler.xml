@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="web-mvc-app" />
-        <module name="reactive" />
-        <module name="virtual-threads" />
+        <module name="web-mvc-app-2" />
+        <module name="webflux-app" />
+        <module name="web-mvc-vt-app" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,9 +18,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="reactive" options="-parameters" />
-      <module name="virtual-threads" options="-parameters" />
       <module name="web-mvc-app" options="-parameters" />
+      <module name="web-mvc-app-2" options="-parameters" />
+      <module name="web-mvc-vt-app" options="-parameters" />
+      <module name="webflux-app" options="-parameters" />
       <module name="webflux-virtual-threads" options="-parameters" />
     </option>
   </component>

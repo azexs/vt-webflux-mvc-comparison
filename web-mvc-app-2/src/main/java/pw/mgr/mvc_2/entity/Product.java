@@ -1,4 +1,4 @@
-package pw.mgr.mvc.entity;
+package pw.mgr.mvc_2.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

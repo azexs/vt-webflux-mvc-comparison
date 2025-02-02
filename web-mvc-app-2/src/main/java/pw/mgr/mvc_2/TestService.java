@@ -1,8 +1,8 @@
-package pw.mgr.mvc_vt;
+package pw.mgr.mvc_2;
 
 import org.springframework.stereotype.Service;
-import pw.mgr.mvc_vt.entity.Product;
-import pw.mgr.mvc_vt.repository.ProductRepository;
+import pw.mgr.mvc_2.entity.Product;
+import pw.mgr.mvc_2.repository.ProductRepository;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -19,7 +19,7 @@ import java.util.concurrent.Semaphore;
 public class TestService {
 
     private static final int BUFFER_SIZE = 4096;
-    private static final int TOTAL_SIZE = 8192;
+    private static final int TOTAL_SIZE = 4096;
 
     private final Semaphore dbSemaphore = new Semaphore(100);
 
@@ -28,8 +28,6 @@ public class TestService {
     public TestService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-
-    private final Semaphore dbSemaphore = new Semaphore(100);
 
     public List<Product> queryDatabase() {
         try {
@@ -43,8 +41,6 @@ public class TestService {
     }
 
     public void performIOOperation(Path directory) throws IOException {
-
-
         Files.createDirectories(directory);
         String fileName = "testfile_" + UUID.randomUUID() + ".dat";
         Path filePath = directory.resolve(fileName);

@@ -14,7 +14,7 @@ def query_prometheus(query, time):
     response.raise_for_status()
     data = response.json()
     if "data" in data and "result" in data["data"]:
-      return float(data["data"]["result"][0]["value"][1])  # Wartość metryki
+      return float(data["data"]["result"][0]["value"][1])
   except Exception as e:
     print(f"Error querying Prometheus (query) for query: {query}, Error: {e}")
   return None
@@ -59,8 +59,9 @@ def fetch_metrics(start_time, end_time, container_name, endpoint, vus_suffix, ap
 def process_results():
   containers = [
     {"name": "vt-webflux-mvc-comparison-web-mvc-app-1", "port": 8080, "app": "web-mvc-app"},
-    {"name": "vt-webflux-mvc-comparison-web-mvc-vt-app-1", "port": 8081, "app": "web-mvc-vt-app"},
-    {"name": "vt-webflux-mvc-comparison-webflux-app-1", "port": 8082, "app": "webflux-app"},
+    {"name": "vt-webflux-mvc-comparison-web-mvc-app-2-1", "port": 8081, "app": "web-mvc-app"},
+    {"name": "vt-webflux-mvc-comparison-web-mvc-vt-app-1", "port": 8082, "app": "web-mvc-vt-app"},
+    {"name": "vt-webflux-mvc-comparison-webflux-app-1", "port": 8083, "app": "webflux-app"},
   ]
   endpoints = ["api-db", "api-delay", "api-file", "api-hello"]
   vus_suffixes = ["1000", "5000"]
@@ -80,7 +81,7 @@ def process_results():
             start_time = content.split("Test Start Time: ")[1].split("\n")[0].strip()
             end_time = content.split("Test End Time: ")[1].split("\n")[0].strip()
 
-          start_timestamp = int(datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S").timestamp())
+          start_timestamp = int(datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S").timestamp()) + 15
           end_timestamp = int(datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S").timestamp())
 
           output_dir = os.path.dirname(file_path)

@@ -14,7 +14,7 @@ export let options = {
         steady_load: {
             executor: 'constant-vus',
             vus: 200,
-            duration: '9m30s',
+            duration: '2m30s',
             startTime: '15s',
             gracefulStop: '15s',
         },
@@ -24,16 +24,16 @@ export let options = {
             stages: [
                 { duration: '15s', target: 0 },
             ],
-            startTime: '9m45s',
+            startTime: '2m45s',
             gracefulStop: '15s',
         },
     },
 };
 
-const endpoint = '/api/hello';
+const endpoint = '/api/file';
 
 export default function () {
-    const res = http.get(`http://localhost:8082${endpoint}`);
+    const res = http.get(`http://localhost:8080${endpoint}`);
     check(res, {
         'status is 200': (r) => r.status === 200,
     });

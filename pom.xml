@@ -12,6 +12,7 @@
 
     <modules>
         <module>web-mvc-app</module>
+        <module>web-mvc-app-2</module>
         <module>webflux-app</module>
         <module>web-mvc-vt-app</module>
     </modules>

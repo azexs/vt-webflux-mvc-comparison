@@ -1,4 +1,4 @@
-package pw.mgr.mvc;
+package pw.mgr.mvc_2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
