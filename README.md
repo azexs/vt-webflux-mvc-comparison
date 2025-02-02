@@ -21,6 +21,7 @@ DODATKOWE PLIKI
 - [metrics.py](metrics.py) – skrypt do pobierania metryk z Prometheusa z folderu [results](results) po zakończeniu testów
 - [run_tests.sh](run_tests.sh) – skrypt uruchamiający zdefiniowane scenariusze w skrypcie po kolei
 - [stress-test.js](stress-test.js) – skrypt uruchamiający pojedynczy scenariusz
+- [results](results) - folder z wynikami testów
 
 PRZYKŁADOWE WYWOŁANIE K6
 ------------------------
